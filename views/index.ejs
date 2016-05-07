@@ -53,25 +53,38 @@
 				</td>
 				</tr>
 			</table>
-			<div class="task-edit form-group" ng-show="editing[task._id]">
-				<input class="form-control" type="text" ng-model="task.title"></input>
-				<div class="input-group form-group" moment-picker="task.due" start-view="month" format="YYYY-MM-DD">
-					<input class="form-control" type="datetime" ng-model="task.due"></input>
-				</div>
-				<button type="submit" class="btn btn-primary" ng-click="updateTask(task)">Save</button>
-				<a ng-click="cancelTask(task)">Cancel</a>
-			</div>
+			<table class="task-edit-view" ng-show="editing[task._id]">
+				<tr class="task-edit form-group"><td class="left-table-col">
+					<input class="form-control" type="text" ng-model="task.title"></input>
+				</td>
+				<td class="right-table-col date-input">
+					<div class="input-group" moment-picker="task.due" start-view="month" format="YYYY-MM-DD">
+						<input type="text" class="form-control" ng-model="task.due" ng-model-options="{ updateOn: 'blur' }"></input>
+					</div>
+				</td></tr>
+				<tr class="task-edit-buttons"><td class="left-table-col">
+					<button type="submit" class="btn" ng-click="updateTask(task)">Save</button>
+					<a ng-click="cancelTask(task)" class="cancel-link">Cancel</a>
+				</td>
+				<td class="right-table-col"></td></tr>
+			</table>
 		</div>
 		<div class="add-task-form" ng-show="addFormOpen">
-			<form ng-submit="addTask()" class="form-inline">
-				<div class="form-group">
-					<input type="text" class="form-control" ng-model="title" placeholder="task description"></input>
-				</div>
-				<div class="input-group form-group" moment-picker="due" start-view="month" format="YYYY-MM-DD">
-					<input type="text" class="form-control" ng-model="due" placeholder="due date"></input>
-				</div>
-				<button type="submit" class="btn btn-primary">Add task</button>
-				<a ng-click="addFormOpen = false">Cancel</a>
+			<form ng-submit="addTask()" class="">
+				<table class="add-task-view task-item">
+					<tr class="form-group"><td class="left-table-col">
+						<input type="text" class="form-control" ng-model="title" placeholder="Task description"></input>
+					</td>
+					<td class="right-table-col date-input">
+						<div class="input-group" moment-picker="due" start-view="month" format="YYYY-MM-DD">
+							<input type="text" class="form-control" ng-model="due" placeholder="Due date" ng-model-options="{ updateOn: 'blur' }"></input>
+						</div>
+					</td></tr>
+					<tr class="task-edit-buttons"><td class="left-table-col">
+						<button type="submit" class="btn">Add task</button>
+						<a ng-click="addFormOpen = false" class="cancel-link">Cancel</a>
+					</td></tr>
+				</table>
 			</form>
 		</div>
 		<div class="add-task-link">

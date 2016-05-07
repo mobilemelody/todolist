@@ -8,13 +8,26 @@ body {
 	background: #FFFFFF;
 }
 
-a {
-	color: #00B7FF;
+.add-task-link a {
+	color: #5BB4DE;
 }
 
-a:hover {
+a {
 	cursor: pointer;
-	color: #00B7FF;
+	color: #666666;
+}
+
+.add-task-link a:hover {
+	color: #5BB4DE;
+}
+
+.cancel-link {
+	padding-left: 8px;
+}
+
+input {
+	border-radius: 0 !important;
+	box-shadow: none !important;
 }
 
 .checkbox {
@@ -22,6 +35,20 @@ a:hover {
 	width: 22px;
 	border: 0.5px solid #c9c9c9;
 	border-radius: 15px;
+}
+
+.btn {
+	background: #5BB4DE;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: 100;
+	border-radius: 2px;
+}
+
+.btn:hover,
+.btn:focus {
+	color: #FFFFFF;
+	background: #278fbe;
 }
 
 .completed {
@@ -116,7 +143,7 @@ td.task-line {
 }
 
 .add-task-link {
-	font-size: 16px;
+	font-size: 13px;
 	padding-top: 15px;
 	padding-bottom: 30px;
 }
@@ -124,4 +151,23 @@ td.task-line {
 .add-icon {
 	padding-right: 13px;
 	padding-left: 3px;
+}
+
+td.left-table-col {
+	width: 75%;
+	padding-top: 5px;
+}
+
+td.right-table-col {
+	width: 25%;
+	padding-top: 5px;
+}
+
+.date-input input {
+	border-left: 1px #FFF solid !important;
+	font-size: 12px;
+}
+
+.task-edit {
+	margin-top: 5px;
 }

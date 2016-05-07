@@ -70,6 +70,7 @@ function($scope, tasks, $filter){
 	
 	$scope.editTask = function(task) {
 		$scope.editing[task._id] = angular.copy(task);
+		$scope.addFormOpen = false;
 	};
 	
 	$scope.cancelTask = function(task) {
