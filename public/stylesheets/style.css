@@ -17,6 +17,10 @@ a {
 	color: #666666;
 }
 
+a:hover {
+	color: #666666;
+}
+
 .add-task-link a:hover {
 	color: #5BB4DE;
 }
@@ -170,4 +174,17 @@ td.right-table-col {
 
 .task-edit {
 	margin-top: 5px;
+}
+
+.full-input {
+	margin-bottom: 5px;
+}
+
+.hide-comments {
+	float: right;
+	padding-top: 15px;
+}
+
+.hide-comments-icon {
+	padding-right: 3px;
 }

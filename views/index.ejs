@@ -41,9 +41,9 @@
 				<tr><td class="checkbox-container">
 					<span class="checkbox" ng-click="changeState(task)" ng-model="task.completed"></span>
 				</td>
-				<td class="task-line" ng-click="editTask(task)" >
+				<td ng-class="{'task-line': !commentFormOpen}" ng-click="!commentFormOpen && editTask(task)" >
 					<span class="task-title task-content">{{ task.title }}</span>
-					<span class="comment-icon glyphicon glyphicon-comment task-content" title="comment" aria-hidden="true" ng-click=""></span>
+					<span class="comment-icon glyphicon glyphicon-comment task-content" title="comment" aria-hidden="true" ng-click="commentFormOpen = true" ></span>
 					<div class="task-date" ng-hide="task.completed">
 						<span class="due-date">{{ task.due | amCalendar }}</span>
 					</div>
@@ -52,8 +52,18 @@
 					<span class="delete-icon glyphicon glyphicon-trash" ng-click="deleteTask(task)"></span>
 				</td>
 				</tr>
+				<tr class="form-group comment-form" ng-show="commentFormOpen">
+					<td></td>
+					<td class="comment-input">
+						<input type="text" class="form-control full-input"></input>
+						<button type="submit" class="btn" ng-click="">Add Comment</button>
+						<a ng-click="commentFormOpen = false" class="hide-comments">
+							<span class="hide-comments-icon glyphicon glyphicon-remove" ng-click="deleteTask(task)"></span>Hide comments</a>
+					</td>
+					<td></td>
+				</tr>
 			</table>
-			<table class="task-edit-view" ng-show="editing[task._id]">
+			<table class="task-edit-view" ng-show="editing[task._id] && !commentFormOpen">
 				<tr class="task-edit form-group"><td class="left-table-col">
 					<input class="form-control" type="text" ng-model="task.title"></input>
 				</td>
