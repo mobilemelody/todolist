@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>to do list</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+	<script src="/javascripts/angularApp.js"></script>
+	<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<!-- load momentJS (required for angular-moment) -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+	<!-- load angular-moment -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-moment/0.9.0/angular-moment.min.js"></script>
+	<script src="javascripts/angular-moment-picker.min.js"></script>
+	<link href="stylesheets/angular-moment-picker.min.css" rel="stylesheet">
+	
+  </head>
+  <body ng-app="todolist" ng-controller="MainCtrl">
+  	<div class="container">
+  		<div class="inner-content row">
+		    <div class="col-md-6 col-md-offset-3 row content">
+		    	<div class="col-md-12">
+		    		<ui-view></ui-view>
+		    	</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/ng-template" id="/home.html">
+		<div class="page-header">
+			<h3>To Do List</h3>
+		</div>
+		
+		<div ng-repeat="task in tasks | filter:{completed:false}">
+			<table class="task-view task-item" ng-show="!editing[task._id]">
+				<tr><td class="checkbox-container">
+					<span class="checkbox" ng-click="changeState(task)" ng-model="task.completed"></span>
+				</td>
+				<td class="task-line" ng-click="editTask(task)" >
+					<span class="task-title task-content">{{ task.title }}</span>
+					<span class="comment-icon glyphicon glyphicon-comment task-content" title="comment" aria-hidden="true" ng-click=""></span>
+					<div class="task-date" ng-hide="task.completed">
+						<span class="due-date">{{ task.due | amCalendar }}</span>
+					</div>
+				</td>
+				<td class="task-menu">
+					<span class="delete-icon glyphicon glyphicon-trash" ng-click="deleteTask(task)"></span>
+				</td>
+				</tr>
+			</table>
+			<div class="task-edit form-group" ng-show="editing[task._id]">
+				<input class="form-control" type="text" ng-model="task.title"></input>
+				<div class="input-group form-group" moment-picker="task.due" start-view="month" format="YYYY-MM-DD">
+					<input class="form-control" type="datetime" ng-model="task.due"></input>
+				</div>
+				<button type="submit" class="btn btn-primary" ng-click="updateTask(task)">Save</button>
+				<a ng-click="cancelTask(task)">Cancel</a>
+			</div>
+		</div>
+		<div class="add-task-form" ng-show="addFormOpen">
+			<form ng-submit="addTask()" class="form-inline">
+				<div class="form-group">
+					<input type="text" class="form-control" ng-model="title" placeholder="task description"></input>
+				</div>
+				<div class="input-group form-group" moment-picker="due" start-view="month" format="YYYY-MM-DD">
+					<input type="text" class="form-control" ng-model="due" placeholder="due date"></input>
+				</div>
+				<button type="submit" class="btn btn-primary">Add task</button>
+				<a ng-click="addFormOpen = false">Cancel</a>
+			</form>
+		</div>
+		<div class="add-task-link">
+			<a ng-click="addFormOpen = true" class=""><span class="add-icon glyphicon glyphicon-plus"></span>Add Task</a>
+		</div>
+		
+		<div ng-repeat="task in tasks | filter:{completed:true}">
+			<table class="task-view task-item">
+				<tr><td class="checkbox-container">
+					<span class="checkbox completed-checkbox" ng-click="changeState(task)" ng-model="task.completed">
+						<span class="checkbox-icon glyphicon glyphicon-ok"></span>
+					</span>
+				</td>
+				<td class="task-line" ng-click="editTask(task)" >
+					<span class="task-title task-content completed">{{ task.title }}</span>
+					<span class="comment-icon glyphicon glyphicon-comment task-content" title="comment" aria-hidden="true" ng-click=""></span>
+				</td>
+				<td class="task-menu"></td>
+				</tr>
+			</table>
+		</div>
+		
+	</script>
+	<script>
+		moment.locale('en', {
+			calendar : {
+				sameDay: '[Today]',
+				nextDay: '[Tomorrow]',
+				nextWeek: 'dddd',
+				lastDay: '[Yesterday]',
+				lastWeek: '[Last] dddd',
+				sameElse: 'MMM D'
+			}
+		});
+	</script>
+  </body>
+</html>

@@ -1,0 +1,127 @@
+body {
+	padding-top: 50px;
+	font: 12px 'Open Sans', sans-serif;
+	background: #FAFAFA;
+}
+
+.content {
+	background: #FFFFFF;
+}
+
+a {
+	color: #00B7FF;
+}
+
+a:hover {
+	cursor: pointer;
+	color: #00B7FF;
+}
+
+.checkbox {
+	height: 22px;
+	width: 22px;
+	border: 0.5px solid #c9c9c9;
+	border-radius: 15px;
+}
+
+.completed {
+	text-decoration: line-through;
+	color: #C9C9C9;
+}
+
+.completed-checkbox {
+
+}
+
+.checkbox-icon {
+	width: 22px;
+	text-align: center;
+	line-height: 150%;
+	color: #C9C9C9;
+}
+
+.task-item {
+	width: 100%;
+}
+
+.task-item td {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+td.checkbox-container {
+	width: 25px;
+}
+
+.checkbox {
+	margin-right: 10px;
+}
+
+.checkbox:hover {
+	background-color: #F0F0F0;
+	cursor: pointer;
+}
+
+.task-content {
+	font-size: 14px;
+}
+
+td.task-line {
+	border-bottom: 1px solid #F0F0F0;
+}
+
+.task-line:hover {
+	cursor: text;
+}
+
+.task-item:hover .comment-icon {
+	color: #C9C9C9;
+}
+
+.comment-icon {
+	color: #FFFFFF;
+	padding-left: 8px;
+}
+
+.task-item:hover .comment-icon:hover {
+	color: #666666;
+	cursor: pointer;
+}
+
+.task-date {
+	float: right;
+	font-size: 11px;
+}
+
+.task-menu {
+	width: 15px;
+}
+
+.delete-icon {
+	color: #FFFFFF;
+	padding-left: 8px;
+}
+
+.task-item:hover .delete-icon {
+	color: #C9C9C9;
+}
+
+.task-item:hover .delete-icon:hover {
+	color: #666666;
+	cursor: pointer;
+}
+
+.add-task-form {
+	padding-top: 15px;
+}
+
+.add-task-link {
+	font-size: 16px;
+	padding-top: 15px;
+	padding-bottom: 30px;
+}
+
+.add-icon {
+	padding-right: 13px;
+	padding-left: 3px;
+}
