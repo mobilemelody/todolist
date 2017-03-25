@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 var Task = require('./models/Tasks');
 var Comment = require('./models/Comments');
 
-mongoose.connect('mongodb://localhost/list');
+mongoose.connect(process.env.MONGODB_URI);
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
