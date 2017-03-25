@@ -1,4 +1,8 @@
-/node_modules
+# Node build artifacts
+node_modules
 npm-debug.log
+
+# Local development
 .DS_Store
-/*.env
+*.env
+*.dev
