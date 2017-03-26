@@ -2,8 +2,8 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 
-var Task = mongoose.model('Task', TaskSchema);
-var Comment = mongoose.model('Comment', CommentSchema);
+var Task = mongoose.model('Task');
+var Comment = mongoose.model('Comment');
 
 // Create our Express application
 var app = express();
