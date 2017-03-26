@@ -85,7 +85,6 @@ function($scope, tasks, $filter){
     });*/
     
     $scope.$watch('task.due', function (newValue) {
-    	console.log('date filter 2');
     	$scope.due = $filter('date')(newValue, 'MMM dd'); 
     });
 	
