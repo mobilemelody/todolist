@@ -1,3 +1,4 @@
+var http = require('http');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -9,7 +10,20 @@ var mongoose = require('mongoose');
 var Task = require('./models/Tasks');
 var Comment = require('./models/Comments');
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/list');
+// Here we find an appropriate database to connect to, defaulting to localhost if we don't find one.
+var uristring = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb:localhost/list';
+
+// The http server will listen to an appropriate port, or default to port 5000.
+var theport = process.env.PORT || 5000;
+
+// Makes connection asynchronously.  Mongoose will queue up database operations and release them when the connection is complete.
+mongoose.connect(uristring, function(err, res) {
+	if(err) {
+		console.log('ERROR connecting to: ' + uristring + '. ' + err);
+	} else {
+		console.log('Succeeded connected to: ' + uristring);
+	}
+});
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
