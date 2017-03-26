@@ -24,7 +24,10 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
-app.listen(process.env.PORT);
+var server = app.listen(process.env.PORT || 8080, function() {
+	var port = server.address().port;
+	console.log('App now running on port ', port);
+});
 
 
 // view engine setup
