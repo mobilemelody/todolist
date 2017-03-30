@@ -6,7 +6,7 @@ var CommentSchema = new mongoose.Schema({
 	body: String,
 	created: { type: Date, default: Date.now },
 	author: String,
-	post: { type: mongoose.Schema.Types.ObjectId, ref: 'Task' }
+	task: { type: mongoose.Schema.Types.ObjectId, ref: 'Task' }
 });
 
 // Export the Mongoose model

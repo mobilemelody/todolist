@@ -6,7 +6,7 @@
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' type='text/css' />
 
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
@@ -43,7 +43,7 @@
 				</td>
 				<td ng-class="{'task-line': !commentFormOpen}" ng-click="!commentFormOpen && editTask(task)" >
 					<span class="task-title task-content">{{ task.title }}</span>
-					<span class="comment-icon glyphicon glyphicon-comment task-content" title="comment" aria-hidden="true" ng-click="commentFormOpen = true" ></span>
+					<span class="comment-icon glyphicon glyphicon-comment task-content" title="comment" aria-hidden="true" ng-click="commentFormOpen = true" ></span> {{task.comments.length}}
 					<div class="task-date" ng-hide="task.completed">
 						<span class="due-date">{{ task.due | amCalendar }}</span>
 					</div>
@@ -55,10 +55,18 @@
 				<tr class="form-group comment-form" ng-show="commentFormOpen">
 					<td></td>
 					<td class="comment-input">
-						<input type="text" class="form-control full-input"></input>
-						<button type="submit" class="btn" ng-click="">Add Comment</button>
+					<div ng-repeat="comment in task.comments">
+						<span class="comment-text">{{ comment.body }}</span>
+						<a ng-click="deleteComment(task, comment)"><span class="glyphicon glyphicon-remove"></span></a>
+					</div>
+					
+					<form ng-submit="addComment(task)" class="">
+						<input type="text" class="form-control full-input" ng-model="commentForm.body"></input>
+						<button type="submit" class="btn">Add Comment</button>
 						<a ng-click="commentFormOpen = false" class="hide-comments">
-							<span class="hide-comments-icon glyphicon glyphicon-remove" ng-click="deleteTask(task)"></span>Hide comments</a>
+							<span class="hide-comments-icon glyphicon glyphicon-remove"></span>Hide comments</a>
+					</form>
+					
 					</td>
 					<td></td>
 				</tr>
@@ -87,7 +95,7 @@
 					</td>
 					<td class="right-table-col date-input">
 						<div class="input-group" moment-picker="due" start-view="month" format="YYYY-MM-DD">
-							<input type="text" class="form-control" ng-model="due" placeholder="Due date" ng-model-options="{ updateOn: 'blur' }"></input>
+							<input type="text" class="form-control" ng-model="due" placeholder="" ng-model-options="{ updateOn: 'blur' }"></input>
 						</div>
 					</td></tr>
 					<tr class="task-edit-buttons"><td class="left-table-col">

@@ -17,7 +17,7 @@ app.config([
 				},
 			})
 			.state('tasks', {
-				url: '/tasks/{id}',
+				url: '/tasks/:id',
 				templateUrl: '/tasks.html',
 				controller: 'TasksCtrl',
 				resolve: {
@@ -30,6 +30,58 @@ app.config([
 		$urlRouterProvider.otherwise('home');
 	}
 ]);
+
+// SERVICES + FACTORIES
+app.factory('tasks', ['$http', function($http) {
+	var o = {
+		tasks: [],
+	};
+	
+	o.getAll = function() {
+		return $http.get('/tasks').success(function(data) {
+			angular.copy(data, o.tasks);
+		});
+	};
+	
+	o.create = function(task) {
+		return $http.post('/tasks', task).success(function(data) {
+			o.tasks.push(data);
+		});
+	};
+	
+	o.get = function(id) {
+		return $http.get('/tasks/' + id).then(function(res) {
+			return res.data;
+		});
+	};
+	
+	o.addComment = function(id, comment) {
+		return $http.post('/tasks/' + id + '/comments', comment).success(function(data) {
+			o.tasks.push(data);
+		});
+	};
+	
+	o.remove = function(task) {
+		return $http.delete('/tasks/' + task._id, task).success(function(data){
+			o.getAll();
+		});
+	};
+	
+	o.update = function(id, newTask) {
+		return $http.put('/tasks/' + id, newTask).success(function(data){
+			return data;
+		});
+	};
+	
+	o.deleteComment = function(task, comment) {
+		return $http.delete('/tasks/' + task._id + '/comments/' + comment._id).success(function(data){
+			o.getAll();
+		});
+	};
+	
+	return o;
+}]);
+
 
 // CONTROLLERS
 app.controller('MainCtrl', [
@@ -79,11 +131,26 @@ function($scope, tasks, $filter){
 		tasks.getAll(task);
 	};
 	
-	/*$scope.$watch('due', function (newValue) {
-		console.log('date filter 1');
-    	$scope.task.due = $filter('date')(newValue, 'MMM dd'); 
-    });*/
-    
+	$scope.commentForm = {};
+	
+	$scope.addComment = function(task){
+		console.log($scope.commentForm.body);
+		if($scope.commentForm.body === '') {return;}
+		tasks.addComment(task._id, {
+			body: $scope.commentForm.body,
+			author: 'user',
+			task: task,
+		}).success(function(task, comment){
+			var task = comment.task;
+			//task.comments.push(comment);
+		});
+		$scope.commentForm.body = '';
+	};
+		
+	$scope.deleteComment = function(task, comment){
+		tasks.deleteComment(task, comment);
+	}
+	
     $scope.$watch('task.due', function (newValue) {
     	$scope.due = $filter('date')(newValue, 'MMM dd'); 
     });
@@ -108,48 +175,3 @@ function($scope, tasks, task) {
 			$scope.body = '';
 		};
 }]);
-
-// SERVICES + FACTORIES
-app.factory('tasks', ['$http', function($http) {
-	var o = {
-		tasks: [],
-	};
-	
-	o.getAll = function() {
-		return $http.get('/tasks').success(function(data) {
-			angular.copy(data, o.tasks);
-		});
-	};
-	
-	o.create = function(task) {
-		return $http.post('/tasks', task).success(function(data) {
-			o.tasks.push(data);
-		});
-	};
-	
-	o.get = function(id) {
-		return $http.get('/tasks/' + id).then(function(res) {
-			return res.data;
-		});
-	};
-	
-	o.addComment = function(id, comment) {
-		return $http.post('/tasks/' + id + '/comments', comment);
-	};
-	
-	o.remove = function(task) {
-		return $http.delete('/tasks/' + task._id, task).success(function(data){
-			//return data;
-			o.getAll();
-		});
-	};
-	
-	o.update = function(id, newTask) {
-		return $http.put('/tasks/' + id, newTask).success(function(data){
-			return data;
-		});
-	};
-	
-	return o;
-}]);
-

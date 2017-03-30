@@ -19,14 +19,10 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-// Create new route with prefix /tasks
-var tasksRoute = router.route('/tasks');
-
 // Create endpoint for POSTS
-tasksRoute.post(function(req, res) {
+router.post('/tasks', function(req, res) {
 	// Create new instance of the Tasks model
 	var task = new Task(req.body);
-	console.log(req.body);
 	task.save(function(err, task) {
 		if(err) { return next(err); }
 		
@@ -61,7 +57,7 @@ router.param('comment', function(req, res, next, id) {
 
 // GET request to retrieve all tasks 
 router.get('/tasks', function(req, res, next) {
-	Task.find(function(err, tasks) {
+	Task.find({}).populate('comments').exec(function(err, tasks) {
 		if(err) { return next(err); }
 		
 		res.json(tasks);
@@ -75,8 +71,6 @@ router.get('/tasks/:task', function(req, res) {
 
 // DELETE request to delete task by ID
 router.delete('/tasks/:task', function(req, res, next) {
-	console.log('delete request');
-	
 	var task = req.task;
 	task.remove(function(err) {
 		res.json(req.task);
@@ -96,6 +90,7 @@ router.put('/tasks/:task', function(req, res, next) {
 
 // POST request to add comment
 router.post('/tasks/:task/comments', function(req, res, next) {
+	console.log('comment post request');
 	var comment = new Comment(req.body);
 	comment.task = req.task;
 	
@@ -103,10 +98,28 @@ router.post('/tasks/:task/comments', function(req, res, next) {
 		if(err) { return next(err); }
 		
 		req.task.comments.push(comment);
-		req.task.save(function(err, post) {
+		req.task.save(function(err, task) {
 			if(err) { return next(err); }
-			
 			res.json(comment);
+		});
+	});
+});
+
+// DELETE request to delete comment
+router.delete('/tasks/:task/comments/:comment', function(req, res, next) {
+	console.log('delete comment request');
+	var task = req.task;
+	var comment = req.comment;
+	comment.remove(function(err) {
+		for (var i = 0; i < task.comments.length; i++) {
+			if (task.comments[i].toString() === comment._id.toString()) {
+				task.comments = req.task.comments.splice(0, i);
+				console.log(task.comments);
+				break;
+			}
+		}
+		task.save(function(err) {
+			res.json(req.task);
 		});
 	});
 });
